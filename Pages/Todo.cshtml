@@ -1,0 +1,50 @@
+﻿@page
+@model SimpleTodoList.Pages.TodoModel
+@{
+    ViewData["Title"] = "Simple Todo List";
+}
+
+<h1>Todo List 📝</h1>
+<form method="post" class="card p-3">
+    <div class="row">
+        <div asp-validation-summary="All"></div>
+    </div>
+    <div class="form-group mb-0 align-middle">
+        <label asp-for="NewTodo.Title">Title</label>
+        <input type="text" asp-for="NewTodo.Title" class="mr-5">
+        <label asp-for="NewTodo.Done">Done</label>
+        <input type="checkbox" asp-for="NewTodo.Done" class="mr-5">
+        <button class="btn btn-primary">Add</button>
+    </div>
+</form>
+
+
+<table class="table mt-5">
+    <thead>
+        <th scope="col">Title</th>
+        <th scope="col">Done</th>
+        <th scope="col">Mark Done</th>
+        <th scope="col">Delete</th>
+    </thead>
+    @foreach (var todo in Model.todos)
+    {
+        <tr>
+            <td>@todo.Title</td>
+            <td>@todo.Done</td>
+            <td>
+                <form method="post" asp-page-handler="Done" asp-route-id="@todo.Id">
+                    <button class="btn btn-primary">Update</button>
+                </form>
+            </td>
+            <td>
+                <form method="post" asp-page-handler="Delete" asp-route-id="@todo.Id">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+
+@section Scripts{
+<partial name="_ValidationScriptsPartial" />
+}
